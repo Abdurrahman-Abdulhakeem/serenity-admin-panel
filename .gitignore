@@ -1,0 +1,4 @@
+"node_modules\n.env\n.next\n/dist\n" 
+.env
+/node_modules
+node_modules
