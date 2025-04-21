@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
-import { setCredentials, logout } from "@/app/redux/features/slices/authSlice";
+import { setCredentials, logout } from "@/redux/features/slices/authSlice";
 
 import { getInjectedStore } from "./injectStore";
 
@@ -43,7 +43,7 @@ api.interceptors.response.use(
         if (store) {
           store.dispatch(
             setCredentials({
-              user: store.getState().auth.user!,
+              userData: store.getState().auth.userData!,
               accessToken: res.data.accessToken,
             })
           );
@@ -93,7 +93,6 @@ export const axiosBaseQuery =
     }
   };
 
-// Call this function when logging out
 export const handleLogout = () => {
   const store = getInjectedStore();
   store?.dispatch(logout());

@@ -2,17 +2,20 @@ import { RootState } from "@/store/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-  } | null;
+  userData : {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      role: string;
+    } | null;
+  }
+
   accessToken: string | null;
 }
 
 const initialState: AuthState = {
-  user:
+  userData:
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("user-serenity") || "null")
       : null,
@@ -27,12 +30,12 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action: PayloadAction<AuthState>) => {
-      state.user = action.payload.user;
+      state.userData = action.payload.userData;
       state.accessToken = action.payload.accessToken;
 
       localStorage.setItem(
         "user-serenity",
-        JSON.stringify(action.payload.user)
+        JSON.stringify(action.payload.userData)
       );
       localStorage.setItem(
         "serenity-accessToken",
@@ -40,7 +43,7 @@ export const authSlice = createSlice({
       );
     },
     logout: (state) => {
-      state.user = null;
+      state.userData.user = null;
       state.accessToken = null;
 
       localStorage.removeItem("user-serenity");

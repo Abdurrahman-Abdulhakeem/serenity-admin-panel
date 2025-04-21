@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetStaffQuery } from "@/app/redux/features/staffApi"
+import { useGetStaffQuery } from "@/redux/features/staffApi"
 
 export default function DashboardPage() {
   const {data: staff = [] } = useGetStaffQuery();

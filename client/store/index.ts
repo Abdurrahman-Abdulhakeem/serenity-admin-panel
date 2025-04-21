@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { staffApi } from "@/app/redux/features/staffApi";
-import { authApi } from "@/app/redux/features/authApi";
+import { staffApi } from "@/redux/features/staffApi";
+import { authApi } from "@/redux/features/authApi";
 
-import authReducer from "../app/redux/features/slices/authSlice";
+import authReducer from "@/redux/features/slices/authSlice";
 
 export const rootReducer = {
   auth: authReducer,

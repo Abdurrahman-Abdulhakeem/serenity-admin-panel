@@ -1,7 +1,7 @@
 "use client";
 
-import { useUpdateStaffMutation } from "@/app/redux/features/staffApi";
-import { Staff } from "@/app/redux/features/slices/staffSlice";
+import { useUpdateStaffMutation } from "@/redux/features/staffApi";
+import { Staff } from "@/redux/features/slices/staffSlice";
 import { useEffect, useState } from "react";
 import Modal from "./BaseModal";
 
@@ -70,7 +70,7 @@ export default function EditStaffModal({ isOpen, onClose, staff }: Props) {
         </button>
         <button
           onClick={handleUpdate}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600"
         >
           Update
         </button>

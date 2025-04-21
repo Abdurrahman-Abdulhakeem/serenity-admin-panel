@@ -1,8 +1,8 @@
 "use client";
 
-import { useDeleteStaffMutation } from "@/app/redux/features/staffApi";
+import { useDeleteStaffMutation } from "@/redux/features/staffApi";
 import Modal from "./BaseModal";
-import { Staff } from "@/app/redux/features/slices/staffSlice";
+import { Staff } from "@/redux/features/slices/staffSlice";
 
 export interface Props {
   isOpen: boolean;
@@ -32,7 +32,7 @@ export default function DeleteModal({ isOpen, onClose, staff }: Props) {
         </button>
         <button
           onClick={() => handleDelete(staff._id)}
-          className="bg-red-700 text-white px-4 py-2 rounded"
+          className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-700"
         >
           Delete
         </button>

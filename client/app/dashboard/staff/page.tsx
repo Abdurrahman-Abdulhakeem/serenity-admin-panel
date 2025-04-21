@@ -5,28 +5,13 @@ import EditStaffModal from "@/app/components/modals/EditStaffModal";
 import {
   useAddStaffMutation,
   useGetStaffQuery,
-} from "@/app/redux/features/staffApi";
-import { Staff } from "@/app/redux/features/slices/staffSlice";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { getAuthState } from "@/app/redux/features/slices/authSlice";
-
+} from "@/redux/features/staffApi";
+import { Staff } from "@/redux/features/slices/staffSlice";
+import { useState } from "react";
 
 export default function StaffPage() {
-  const { user } = useSelector(getAuthState);
-  const router = useRouter();
   const { data: staff = [], isLoading } = useGetStaffQuery();
   const [addStaff] = useAddStaffMutation();
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-    // if (user && user.role !== 'admin') {
-    //   router.push('/'); // Redirect if not admin
-    // }
-  }, [user, router]);
 
   const [form, setForm] = useState({
     name: "",

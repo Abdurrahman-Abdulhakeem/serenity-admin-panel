@@ -1,5 +1,6 @@
 "use client";
 
+import { handleLogout } from "@/libs/axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaUserMd, FaClipboardList, FaSignOutAlt } from "react-icons/fa";
@@ -29,7 +30,10 @@ export default function Sidebar() {
         >
           <FaUserMd /> Manage Staff
         </Link>
-        <button className="flex items-center gap-2 p-2 rounded-md hover:bg-red-100 text-red-600 mt-10">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 p-2 rounded-md hover:bg-red-100 text-red-600 mt-10"
+        >
           <FaSignOutAlt /> Logout
         </button>
       </nav>

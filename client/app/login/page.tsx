@@ -1,10 +1,10 @@
 "use client";
 
-import { setCredentials } from "@/app/redux/features/slices/authSlice";
-import { useRouter } from "next/navigation";
+import { setCredentials } from "@/redux/features/slices/authSlice";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../redux/features/authApi";
+import { useLoginMutation } from "../../redux/features/authApi";
 
 export default function LoginPage() {
   const [login] = useLoginMutation();
@@ -14,15 +14,20 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/dashboard";
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const { data } = await login({ email, password });
 
-      dispatch(setCredentials({ user: data, accessToken: data.accessToken }));
+      dispatch(
+        setCredentials({ userData: data, accessToken: data.accessToken })
+      );
       document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
-      router.push("/dashboard");
+      router.replace(redirect);
       alert(data.message + " welcome back " + data.user.name);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
