@@ -7,6 +7,7 @@ import { connectDB } from "./config/db";
 import { errorHandler } from "./middlewares/error";
 import authRoutes from './routes/authRoutes';
 import staffRoutes from "./routes/staffRoutes";
+import departmentRoutes from "./routes/departmentRoutes";
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/staff', staffRoutes);
+app.use('/api/departments', departmentRoutes);
 
 
 app.use(errorHandler)

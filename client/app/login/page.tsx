@@ -36,10 +36,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary to-primary">
       <form
         onSubmit={handleLogin}
-        className="bg-background text-foreground p-8 rounded-xl shadow-2xl w-full max-w-md"
+        className="bg-card text-card-foreground p-8 rounded-xl shadow-2xl w-full max-w-md"
       >
         <h1 className="text-2xl font-bold mb-6 text-center">
           Serenity Admin Login
@@ -61,7 +61,7 @@ export default function LoginPage() {
         <input
           type="submit"
           value="Log In"
-          className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700"
+          className="w-full bg-primary text-primary-foreground p-3 rounded-xl hover:bg-primary/80"
         />
       </form>
     </div>

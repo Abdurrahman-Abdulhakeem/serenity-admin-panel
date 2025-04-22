@@ -1,38 +1,48 @@
 "use client";
 
-import { handleLogout } from "@/libs/axios";
+import { handleLogout } from "@/lib/axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaUserMd, FaClipboardList, FaSignOutAlt } from "react-icons/fa";
+import { FaUserMd, FaClipboardList, FaSignOutAlt, FaSitemap } from "react-icons/fa";
 
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="bg-background text-foreground shadow-md h-screen w-64 p-6 fixed">
-      <h2 className="text-2xl tracking-tighter font-bold mb-10 text-blue-600">
+    <aside className="bg-sidebar text-sidebar-foreground shadow-md h-screen w-64 p-6 fixed">
+      <h2 className="text-2xl tracking-tighter font-bold mb-10 text-primary">
         Serenity Admin
       </h2>
       <nav className="space-y-4">
         <Link
           href="/dashboard"
-          className={`flex items-center gap-2 p-2 rounded-md hover:bg-blue-600 ${
-            pathname === "/dashboard" && "bg-blue-600 font-semibold"
+          className={`flex items-center gap-2 p-2 rounded-md hover:bg-primary ${
+            pathname === "/dashboard" &&
+            "bg-primary text-primary-foreground font-semibold"
           }`}
         >
           <FaClipboardList /> Dashboard
         </Link>
         <Link
           href="/dashboard/staff"
-          className={`flex items-center gap-2 p-2 rounded-md hover:bg-blue-600 ${
+          className={`flex items-center gap-2 p-2 rounded-md hover:bg-primary ${
             pathname.startsWith("/dashboard/staff") &&
-            "bg-blue-600 font-semibold"
+            "bg-primary text-primary-foreground font-semibold"
           }`}
         >
           <FaUserMd /> Manage Staff
         </Link>
+        <Link
+          href="/dashboard/departments"
+          className={`flex items-center gap-2 p-2 rounded-md hover:bg-primary ${
+            pathname.startsWith("/dashboard/departments") &&
+            "bg-primary text-primary-foreground font-semibold"
+          }`}
+        >
+          <FaSitemap /> Manage Departments
+        </Link>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 p-2 rounded-md hover:bg-red-100 text-red-600 mt-10"
+          className="flex items-center gap-2 p-2 rounded-md hover:bg-red-100 text-destructive mt-10"
         >
           <FaSignOutAlt /> Logout
         </button>

@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { Staff } from "./slices/staffSlice";
-import { axiosBaseQuery } from "@/libs/axios";
+import { Staff } from "../../types/staff";
+import { axiosBaseQuery } from "@/lib/axios";
 
 export const staffApi = createApi({
   reducerPath: "staffApi",

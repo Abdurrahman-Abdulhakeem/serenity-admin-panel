@@ -6,7 +6,7 @@ import {
   useAddStaffMutation,
   useGetStaffQuery,
 } from "@/redux/features/staffApi";
-import { Staff } from "@/redux/features/slices/staffSlice";
+import { Staff } from "@/types/staff";
 import { useState } from "react";
 
 export default function StaffPage() {
@@ -55,7 +55,7 @@ export default function StaffPage() {
           placeholder="Search staff..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border p-2 rounded w-1/3 mr-4"
+          className="border border-ring dark:border-border focus:outline-none  focus:ring-2 focus:ring-ring focus:border-transparent p-2 rounded w-1/3 mr-4 "
         />
       </div>
 
@@ -65,26 +65,26 @@ export default function StaffPage() {
           placeholder="Name"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="border p-2 mr-2 rounded"
+          className="border border-ring dark:border-border p-2 mr-2 rounded focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
         />
         <input
           type="email"
           placeholder="Email"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="border p-2 mr-2 rounded"
+          className="border border-ring dark:border-border p-2 mr-2 rounded focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
         />
         <input
           type="text"
           placeholder="Department"
           value={form.department}
           onChange={(e) => setForm({ ...form, department: e.target.value })}
-          className="border p-2 mr-2 rounded"
+          className="border border-ring dark:border-border p-2 mr-2 rounded focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
         />
         <select
           value={form.role}
           onChange={(e) => setForm({ ...form, role: e.target.value })}
-          className="border p-2 mr-2 rounded"
+          className="border border-ring dark:border-border mr-2 rounded px-5 py-[9px] bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent dark:text-foreground"
         >
           <option value="doctor">Doctor</option>
           <option value="nurse">Nurse</option>
@@ -94,13 +94,13 @@ export default function StaffPage() {
         <input
           type="submit"
           value="Add Staff"
-          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer"
         />
       </form>
 
-      <table className="min-w-full bg-white rounded shadow-sm">
+      <table className="min-w-full bg-card rounded shadow-sm">
         <thead>
-          <tr className="text-left bg-gray-100">
+          <tr className="text-left bg-accent text-accent-foreground">
             <th className="p-4">Name</th>
             <th>Email</th>
             <th>Department</th>
@@ -117,7 +117,7 @@ export default function StaffPage() {
             </tr>
           ) : (
             paginated.map((person) => (
-              <tr key={person._id} className="border-t border-t-black/25">
+              <tr key={person._id} className="border-t border-border">
                 <td className="p-4">{person.name}</td>
                 <td>{person.email}</td>
                 <td>{person.department}</td>
@@ -128,7 +128,7 @@ export default function StaffPage() {
                       setSelected(person);
                       setEditModalOpen(true);
                     }}
-                    className="text-blue-600 hover:underline mr-4 cursor-pointer"
+                    className="text-primary hover:underline mr-4 cursor-pointer"
                   >
                     Edit
                   </button>
@@ -137,7 +137,7 @@ export default function StaffPage() {
                       setSelected(person);
                       setDeleteModalOpen(true);
                     }}
-                    className="text-red-600 hover:underline cursor-pointer"
+                    className="text-destructive hover:underline cursor-pointer"
                   >
                     Delete
                   </button>
@@ -153,7 +153,9 @@ export default function StaffPage() {
           <button
             key={i}
             className={`px-3 py-1 rounded ${
-              currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200"
+              currentPage === i + 1
+                ? "bg-primary text-primary-foreground"
+                : "bg-ring"
             }`}
             onClick={() => setCurrentPage(i + 1)}
           >

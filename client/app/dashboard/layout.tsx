@@ -6,7 +6,7 @@ import Topbar from "../components/Topbar";
 import { useSelector } from "react-redux";
 import { getAuthState } from "@/redux/features/slices/authSlice";
 import { useRouter, usePathname } from "next/navigation";
-import { rehydrateAuth } from "@/libs/rehydrateAuth";
+import { rehydrateAuth } from "@/lib/rehydrateAuth";
 
 export default function DashboardLayout({
   children,
@@ -36,12 +36,12 @@ export default function DashboardLayout({
   if (!isHydrated || !userData) return null; //Loading Component here!;
 
   return (
-    <div className="flex">
+    <div className="flex dark">
       <Sidebar />
 
       <div className="flex-1 ml-64">
         <Topbar />
-        <main className="p-6 bg-gray-300 text-background min-h-[calc(100vh-4rem)]">
+        <main className="p-6 bg-secondary text-foreground min-h-[calc(100vh-4rem)]">
           {children}
         </main>
       </div>

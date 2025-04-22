@@ -33,7 +33,7 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
   return (
     <div>
       <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-        <div ref={modalRef} className="bg-white p-6 rounded w-full max-w-md">
+        <div ref={modalRef} className="bg-card p-6 rounded w-full max-w-md">
           {children}
         </div>
       </div>

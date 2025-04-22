@@ -1,7 +1,7 @@
 "use client";
 
 import { useUpdateStaffMutation } from "@/redux/features/staffApi";
-import { Staff } from "@/redux/features/slices/staffSlice";
+import { Staff } from "@/types/staff";
 import { useEffect, useState } from "react";
 import Modal from "./BaseModal";
 
@@ -54,7 +54,7 @@ export default function EditStaffModal({ isOpen, onClose, staff }: Props) {
         onChange={(e) => setForm({ ...form, department: e.target.value })}
       />
       <select
-        className="w-full mb-4 p-2 border rounded"
+        className="w-full mb-4 p-2 border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent dark:text-foreground"
         value={form.role || "nurse"}
         onChange={(e) => setForm({ ...form, role: e.target.value })}
       >
@@ -70,7 +70,7 @@ export default function EditStaffModal({ isOpen, onClose, staff }: Props) {
         </button>
         <button
           onClick={handleUpdate}
-          className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer hover:bg-primary/80"
         >
           Update
         </button>
