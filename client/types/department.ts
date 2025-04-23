@@ -4,3 +4,9 @@ export interface Department {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface DepartmentResponse {
+  departments: Department[];
+  currentPage: number;
+  totalPages: number;
+};

@@ -1,5 +1,5 @@
 import { axiosBaseQuery } from "@/lib/axios";
-import { Department } from "@/types/department";
+import { Department, DepartmentResponse } from "@/types/department";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const departmentApi = createApi({
@@ -8,7 +8,7 @@ export const departmentApi = createApi({
   tagTypes: ["Department"],
   endpoints: (builder) => ({
     getDepartments: builder.query<
-      { departments: Department[] },
+      DepartmentResponse,
       { page: number; keyword: string }
     >({
       query: ({ page = 1, keyword = "" }) => ({
@@ -26,7 +26,10 @@ export const departmentApi = createApi({
       }),
       invalidatesTags: ["Department"],
     }),
-    updateDepartment: builder.mutation<void, { id: string; data: Partial<Department> }>({
+    updateDepartment: builder.mutation<
+      void,
+      { id: string; data: Partial<Department> }
+    >({
       query: ({ id, ...data }) => ({
         url: `departments/${id}`,
         method: "PUT",

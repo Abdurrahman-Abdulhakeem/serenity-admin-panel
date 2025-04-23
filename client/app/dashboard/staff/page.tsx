@@ -1,9 +1,10 @@
 "use client";
 
-import DeleteModal from "@/app/components/modals/DeleteModal";
-import EditStaffModal from "@/app/components/modals/EditStaffModal";
+import DeleteModal from "@/app/components/customModals/DeleteModal";
+import EditStaffModal from "@/app/components/customModals/EditStaffModal";
 import {
   useAddStaffMutation,
+  useDeleteStaffMutation,
   useGetStaffQuery,
 } from "@/redux/features/staffApi";
 import { Staff } from "@/types/staff";
@@ -12,6 +13,7 @@ import { useState } from "react";
 export default function StaffPage() {
   const { data: staff = [], isLoading } = useGetStaffQuery();
   const [addStaff] = useAddStaffMutation();
+  const [deleteStaff] = useDeleteStaffMutation();
 
   const [form, setForm] = useState({
     name: "",
@@ -173,7 +175,8 @@ export default function StaffPage() {
       <DeleteModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        staff={selected}
+        data={selected}
+        onDelete={(id) => deleteStaff(id).unwrap()}
       />
     </div>
   );

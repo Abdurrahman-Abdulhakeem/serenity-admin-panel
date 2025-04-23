@@ -1,29 +1,30 @@
 "use client";
 
-import { useDeleteStaffMutation } from "@/redux/features/staffApi";
 import Modal from "./BaseModal";
 import { Staff } from "@/types/staff";
+import { Department } from "@/types/department";
 
 export interface Props {
   isOpen: boolean;
   onClose: () => void;
-  staff: Staff | null;
+  data: Department | Staff | null;
+  onDelete: (id: string) => Promise<void>;
 }
 
-export default function DeleteModal({ isOpen, onClose, staff }: Props) {
-  const [deleteStaff] = useDeleteStaffMutation();
+export default function DeleteModal({ isOpen, onClose, data, onDelete }: Props) {
 
-  const handleDelete = async (id: string) => {
-    await deleteStaff(id);
+  const handleDelete = async () => {
+    if(!data || !data._id) return;
+    await onDelete(data._id);
     onClose();
   };
 
-  if (!isOpen || !staff) return null;
+  if (!isOpen || !data) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2 className="text-xl font-semibold pb-4">
-        Are you sure you want to delete {staff.name}
+        Are you sure you want to delete <span className="font-bold"> {data.name} </span>
       </h2>
 
       <div className="flex justify-between">
@@ -31,7 +32,7 @@ export default function DeleteModal({ isOpen, onClose, staff }: Props) {
           Cancel
         </button>
         <button
-          onClick={() => handleDelete(staff._id)}
+          onClick={handleDelete}
           className="bg-destructive text-white px-4 py-2 rounded cursor-pointer hover:bg-destructive/70"
         >
           Delete
