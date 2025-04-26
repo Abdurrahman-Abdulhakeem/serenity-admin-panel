@@ -8,6 +8,7 @@ import { errorHandler } from "./middlewares/error";
 import authRoutes from './routes/authRoutes';
 import staffRoutes from "./routes/staffRoutes";
 import departmentRoutes from "./routes/departmentRoutes";
+import appointmentRoutes from "./routes/appointmentRoutes";
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/departments', departmentRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 
 app.use(errorHandler)
