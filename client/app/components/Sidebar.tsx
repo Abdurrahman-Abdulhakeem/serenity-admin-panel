@@ -3,7 +3,13 @@
 import { handleLogout } from "@/lib/axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaUserMd, FaClipboardList, FaSignOutAlt, FaSitemap } from "react-icons/fa";
+import {
+  FaUserMd,
+  FaClipboardList,
+  FaSignOutAlt,
+  FaSitemap,
+  FaRegCalendarAlt,
+} from "react-icons/fa";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -39,6 +45,15 @@ export default function Sidebar() {
           }`}
         >
           <FaSitemap /> Manage Departments
+        </Link>
+        <Link
+          href="/dashboard/appointments"
+          className={`flex items-center gap-2 p-2 rounded-md hover:bg-primary ${
+            pathname.startsWith("/dashboard/appointments") &&
+            "bg-primary text-primary-foreground font-semibold"
+          }`}
+        >
+          <FaRegCalendarAlt /> Appointments
         </Link>
         <button
           onClick={handleLogout}
