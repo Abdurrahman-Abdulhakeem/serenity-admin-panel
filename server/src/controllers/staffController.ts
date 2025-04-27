@@ -1,30 +1,20 @@
-import { Request, Response } from 'express';
-import Staff from '../models/Staff';
-import { catchAsync } from '../utils/catchAsync';
+import Staff from "../models/Staff";
+import * as factory from "./controllerFactory";
 
-export const getAllStaff = catchAsync(async (req: Request, res: Response) => {
-    const staff = await Staff.find().sort({ createdAt: -1 });
-    res.json(staff);
-
-});
-
-export const createStaff = catchAsync(async (req: Request, res: Response) => {
-
-    const { name, email, role, department, phone, address } = req.body;
-    const newStaff = new Staff({ name, email, role, department, phone, address });
-    await newStaff.save();
-    res.status(201).json(newStaff);
-
-});
-
-export const updateStaff =catchAsync(async (req: Request, res: Response) => {
-    const updated = await Staff.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
-
-});
-
-export const deleteStaff = catchAsync(async (req: Request, res: Response) => {
-    await Staff.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Staff deleted' });
-
-});
+// @desc    Get all staffs with search + pagination
+// @route   GET /api/staffs
+export const getAllStaff = factory.getAll(Staff, [
+  "name",
+  "email",
+  "role",
+  "department",
+]);
+// @desc    Create staff
+// @route   POST /api/staffs
+export const createStaff = factory.createOne(Staff);
+// @desc    Update staff
+// @route   PUT /api/staffs/:id
+export const updateStaff = factory.updateOne(Staff);
+// @desc    Delete staff
+// @route   DELETE /api/staffs/:id
+export const deleteStaff = factory.deleteOne(Staff);

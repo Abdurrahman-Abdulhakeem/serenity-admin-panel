@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { Staff } from "../../types/staff";
+import { Staff, StaffResponse } from "../../types/staff";
 import { axiosBaseQuery } from "@/lib/axios";
 
 export const staffApi = createApi({
@@ -7,16 +7,17 @@ export const staffApi = createApi({
   baseQuery: axiosBaseQuery(),
   tagTypes: ["Staff"],
   endpoints: (builder) => ({
-    getStaff: builder.query<Staff[], void>({
-      query: () => ({
-        url: "/staff",
+    getStaff: builder.query<StaffResponse, { page?: number; keyword?: string }>({
+      query: ({ page = 1, keyword = ""}) => ({
+        url: "/staffs",
         method: "get",
+        params: { page, keyword }
       }),
       providesTags: ["Staff"],
     }),
     addStaff: builder.mutation<void, Partial<Staff>>({
       query: (data) => ({
-        url: "staff",
+        url: "staffs",
         method: "POST",
         data,
       }),
@@ -24,7 +25,7 @@ export const staffApi = createApi({
     }),
     updateStaff: builder.mutation<void, { id: string; data: Partial<Staff> }>({
       query: ({ id, data }) => ({
-        url: `staff/${id}`,
+        url: `staffs/${id}`,
         method: "PUT",
         data,
       }),
@@ -32,7 +33,7 @@ export const staffApi = createApi({
     }),
     deleteStaff: builder.mutation<void, string>({
       query: (id) => ({
-        url: `staff/${id}`,
+        url: `staffs/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Staff"],

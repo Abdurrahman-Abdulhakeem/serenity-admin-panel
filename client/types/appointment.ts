@@ -9,7 +9,8 @@ export interface Appointment {
 }
 
 export interface AppointmentResponse {
-  appointments: Appointment[];
-  currentPage: number;
+  docs: Appointment[];
+  status: string;
+  result: number;
   totalPages: number;
 }

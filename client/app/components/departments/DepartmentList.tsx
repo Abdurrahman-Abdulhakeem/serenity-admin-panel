@@ -50,7 +50,7 @@ export default function DepartmentList() {
         <p>Loading...</p>
       ) : (
         <div className="bg-card rounded shadow-md divide-y">
-          {data?.departments?.map((dep) => (
+          {data?.docs.map((dep) => (
             <DepartmentRow
               key={dep._id}
               department={dep}

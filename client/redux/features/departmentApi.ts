@@ -30,7 +30,7 @@ export const departmentApi = createApi({
       void,
       { id: string; data: Partial<Department> }
     >({
-      query: ({ id, ...data }) => ({
+      query: ({ id, data }) => ({
         url: `departments/${id}`,
         method: "PUT",
         data,

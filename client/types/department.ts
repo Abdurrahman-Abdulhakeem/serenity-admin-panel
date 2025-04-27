@@ -6,7 +6,8 @@ export interface Department {
 }
 
 export interface DepartmentResponse {
-  departments: Department[];
-  currentPage: number;
+  docs: Department[];
+  status: string;
+  result: number;
   totalPages: number;
-};
+}

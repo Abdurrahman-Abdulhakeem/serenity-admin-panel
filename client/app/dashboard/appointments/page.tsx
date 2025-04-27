@@ -77,7 +77,7 @@ export default function AppointmentsPage() {
           </thead>
           <tbody>
             {!isLoading &&
-              data?.appointments?.map((appt: Appointment) => (
+              data?.docs.map((appt: Appointment) => (
                 <tr key={appt._id} className="border-t">
                   <td className="px-4 py-2">{appt.patientName}</td>
                   <td>{appt.reason}</td>
@@ -115,7 +115,7 @@ export default function AppointmentsPage() {
       {data && (
         <Pagination
           isLoading={isLoading}
-          page={data.currentPage}
+          page={page}
           totalPages={data.totalPages || 1}
           setPage={setPage}
         />

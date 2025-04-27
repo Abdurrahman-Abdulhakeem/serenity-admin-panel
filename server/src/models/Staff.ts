@@ -1,6 +1,16 @@
 import mongoose from 'mongoose';
 
-const staffSchema = new mongoose.Schema(
+export interface IStaff extends mongoose.Document {
+  name: string;
+  email: string;
+  role: "doctor" | "nurse" | "admin" | "lab" | "pharmacist";
+  department: string;
+  isActive: boolean;
+  phone?: string;
+  address?: string;
+}
+
+const staffSchema = new mongoose.Schema<IStaff>(
   {
     name: {
       type: String,
@@ -30,4 +40,4 @@ const staffSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model('Staff', staffSchema);
+export default mongoose.model<IStaff>('Staff', staffSchema);

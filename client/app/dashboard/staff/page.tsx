@@ -2,6 +2,7 @@
 
 import DeleteModal from "@/app/components/customModals/DeleteModal";
 import EditStaffModal from "@/app/components/customModals/EditStaffModal";
+import Pagination from "@/app/components/Pagination";
 import {
   useAddStaffMutation,
   useDeleteStaffMutation,
@@ -11,7 +12,13 @@ import { Staff } from "@/types/staff";
 import { useState } from "react";
 
 export default function StaffPage() {
-  const { data: staff = [], isLoading } = useGetStaffQuery();
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState("");
+  const [selected, setSelected] = useState<Staff | null>(null);
+  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+
+  const { data: staff, isLoading } = useGetStaffQuery({ page, keyword });
   const [addStaff] = useAddStaffMutation();
   const [deleteStaff] = useDeleteStaffMutation();
 
@@ -21,25 +28,6 @@ export default function StaffPage() {
     department: "",
     role: "nurse",
   });
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selected, setSelected] = useState<Staff | null>(null);
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  const itemsPerPage = 5;
-  const filteredStaff = staff.filter(
-    (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.email.toLowerCase().includes(search.toLowerCase()) ||
-      s.department.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const paginated = filteredStaff.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-  const totalPages = Math.ceil(filteredStaff.length / itemsPerPage);
 
   const handleAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,8 +43,8 @@ export default function StaffPage() {
         <input
           type="text"
           placeholder="Search staff..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
           className="border border-ring dark:border-border focus:outline-none  focus:ring-2 focus:ring-ring focus:border-transparent p-2 rounded w-1/3 mr-4 "
         />
       </div>
@@ -118,7 +106,7 @@ export default function StaffPage() {
               </td>
             </tr>
           ) : (
-            paginated.map((person) => (
+            staff?.docs.map((person) => (
               <tr key={person._id} className="border-t border-border">
                 <td className="p-4">{person.name}</td>
                 <td>{person.email}</td>
@@ -151,19 +139,12 @@ export default function StaffPage() {
       </table>
 
       <div className="flex justify-center mt-4 space-x-2">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            className={`px-3 py-1 rounded ${
-              currentPage === i + 1
-                ? "bg-primary text-primary-foreground"
-                : "bg-ring"
-            }`}
-            onClick={() => setCurrentPage(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
+        <Pagination
+          isLoading={isLoading}
+          page={page}
+          setPage={setPage}
+          totalPages={staff?.totalPages ?? 1}
+        />
       </div>
 
       <EditStaffModal
