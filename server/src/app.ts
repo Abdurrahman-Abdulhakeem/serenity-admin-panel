@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes';
 import staffRoutes from "./routes/staffRoutes";
 import departmentRoutes from "./routes/departmentRoutes";
 import appointmentRoutes from "./routes/appointmentRoutes";
+import patientRoutes from './routes/patientRoutes';
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/staffs', staffRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/patients', patientRoutes);
 
 
 app.use(errorHandler)

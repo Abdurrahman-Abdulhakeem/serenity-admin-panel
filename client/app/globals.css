@@ -1,4 +1,3 @@
-
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -46,8 +45,8 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.98 0.02 220);         /* soft blue-gray */
-  --foreground: oklch(0.22 0.03 250);        /* dark navy for text */
+  --background: oklch(0.98 0.02 220); /* soft blue-gray */
+  --foreground: oklch(0.22 0.03 250); /* dark navy for text */
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.22 0.03 250);
@@ -55,28 +54,28 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.22 0.03 250);
 
-  --primary: oklch(0.65 0.12 240);           /* hospital blue */
+  --primary: oklch(0.65 0.12 240); /* hospital blue */
   --primary-foreground: oklch(0.98 0 0);
 
-  --secondary: oklch(0.94 0.01 200);         /* light neutral */
+  --secondary: oklch(0.94 0.01 200); /* light neutral */
   --secondary-foreground: oklch(0.22 0.03 250);
 
   --muted: oklch(0.95 0.005 240);
   --muted-foreground: oklch(0.45 0.015 250);
 
-  --accent: oklch(0.82 0.08 150);            /* calm green */
+  --accent: oklch(0.82 0.08 150); /* calm green */
   --accent-foreground: oklch(0.14 0.01 120);
 
-  --destructive: oklch(0.62 0.18 20);        /* muted red */
+  --destructive: oklch(0.62 0.18 20); /* muted red */
   --border: oklch(0.9 0 0);
   --input: oklch(0.92 0 0);
   --ring: oklch(0.68 0.02 220);
 
   --chart-1: oklch(0.66 0.12 250); /* blue */
   --chart-2: oklch(0.64 0.11 180); /* teal */
-  --chart-3: oklch(0.68 0.1 120);  /* green */
-  --chart-4: oklch(0.78 0.08 90);  /* lime */
-  --chart-5: oklch(0.8 0.1 60);    /* yellow */
+  --chart-3: oklch(0.68 0.1 120); /* green */
+  --chart-4: oklch(0.78 0.08 90); /* lime */
+  --chart-5: oklch(0.8 0.1 60); /* yellow */
 
   --sidebar: oklch(0.96 0.01 220);
   --sidebar-foreground: oklch(0.22 0.03 250);
@@ -131,7 +130,6 @@
   --sidebar-ring: oklch(0.6 0.02 220);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -139,4 +137,36 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .rbc-month-view .rbc-day-bg {
+    @apply bg-muted border-primary hover:bg-popover;
+  }
+  .rbc-event {
+    @apply rounded-[8px] py-1 px-2 text-sm;
+  }
+  .rbc-header {
+    @apply bg-accent font-bold /* Header background */;
+  }
+  .rbc-header span {
+    @apply text-accent-foreground; /* Header text color */
+  }
+}
+
+/* Style the box background of days from other months */
+.rbc-off-range-bg {
+  background-color: var(--popover) !important;
+}
+.rbc-today {
+  background-color: var(--primary) !important;
+}
+/* Calendar Button styling */
+.rbc-btn-group button {
+  background-color: var(--chart-3) !important;
+  color: #f4f4f4 !important;
+}
+.rbc-btn-group button:hover,
+.rbc-btn-group button:focus {
+  opacity: 0.8;
 }

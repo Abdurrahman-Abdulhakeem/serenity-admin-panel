@@ -13,6 +13,7 @@ import Pagination from "@/app/components/Pagination";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import DeleteModal from "@/app/components/customModals/DeleteModal";
+import CalendarView from "@/app/components/appointments/CalendarView";
 
 const options = ["", "pending", "approved", "completed", "cancelled"];
 
@@ -137,6 +138,8 @@ export default function AppointmentsPage() {
         data={selected}
         onDelete={(id) => deleteAppointment(id).unwrap()}
       />
+
+      <CalendarView />
     </div>
   );
 }
