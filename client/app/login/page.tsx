@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../redux/features/authApi";
+import { showSuccess } from "@/lib/toastUtils";
 
 export default function LoginPage() {
   const [login] = useLoginMutation();
@@ -28,10 +29,11 @@ export default function LoginPage() {
       );
       document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
       router.replace(redirect);
-      alert(data.message + " welcome back " + data.user.name);
+      showSuccess(data.message)
+      // alert(data.message + " welcome back " + data.user.name);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      alert("Login failed. Please check your credentials.");
+      // alert("Login failed. Please check your credentials.");
     }
   };
 

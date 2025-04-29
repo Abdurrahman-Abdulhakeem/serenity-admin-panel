@@ -2,14 +2,12 @@ import { RootState } from "@/store/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  userData : {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      role: string;
-    } | null;
-  }
+  userData: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  } | null;
 
   accessToken: string | null;
 }
@@ -43,7 +41,7 @@ export const authSlice = createSlice({
       );
     },
     logout: (state) => {
-      state.userData.user = null;
+      state.userData = null;
       state.accessToken = null;
 
       localStorage.removeItem("user-serenity");
@@ -51,7 +49,6 @@ export const authSlice = createSlice({
     },
   },
 });
-
 
 export const getAuthState = (state: RootState) => state.auth;
 export const { setCredentials, logout } = authSlice.actions;

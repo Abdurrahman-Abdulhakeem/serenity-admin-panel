@@ -1,8 +1,8 @@
 import Patient from "../models/Patient";
 import * as factory from "./controllerFactory";
 
-// @desc    Create department
-// @route   POST /api/departments
+// @desc    Create patient
+// @route   POST /api/patients
 export const createPatient = factory.createOne(Patient);
 // @desc    Get all patients with search + pagination
 // @route   GET /api/patients

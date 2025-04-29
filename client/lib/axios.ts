@@ -1,9 +1,12 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { setCredentials, logout } from "@/redux/features/slices/authSlice";
 
 import { getInjectedStore } from "./injectStore";
+import { handleApiError } from "./error";
 
 const baseURL = "http://localhost:5000/api";
 
@@ -12,53 +15,55 @@ const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.request.use((config) => {
-  const token = getInjectedStore()?.getState().auth.accessToken;
-  if (token) {
+api.interceptors.request.use(async (config) => {
+  const store = getInjectedStore();
+  const token = store?.getState().auth.accessToken;
+
+  if (!token) return config;
+
+  const user = jwtDecode<{ exp: number }>(token);
+  const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+
+  if (!isExpired) {
     config.headers.Authorization = `Bearer ${token}`;
+    return config;
   }
+
+  const refreshToken = Cookies.get("refreshToken");
+  if (!refreshToken) {
+    handleLogout();
+    return config;
+  }
+
+  try {
+    const res = await axios.post(`${baseURL}/auth/refresh`, {
+      token: refreshToken,
+    });
+
+    const newAccessToken = res.data.accessToken;
+    if (newAccessToken && store?.getState().auth.userData) {
+      store?.dispatch(
+        setCredentials({
+          userData: store.getState().auth.userData,
+          accessToken: newAccessToken,
+        })
+      );
+    }
+
+    config.headers.Authorization = `Bearer ${newAccessToken}`;
+  } catch (err) {
+    handleLogout();
+    console.error("Failed to refresh token:", err);
+  }
+
   return config;
 });
 
 api.interceptors.response.use(
   (res) => res,
-  async (error) => {
-    const originalRequest = error.config as AxiosRequestConfig & {
-      _retry?: boolean;
-    };
-
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      originalRequest.url !== "/auth/refresh"
-    ) {
-      originalRequest._retry = true;
-      try {
-        const refreshToken = Cookies.get("refreshToken");
-        const res = await api.post(`/auth/refresh`, {
-          token: refreshToken,
-        });
-
-        const store = getInjectedStore();
-        if (store) {
-          store.dispatch(
-            setCredentials({
-              userData: store.getState().auth.userData!,
-              accessToken: res.data.accessToken,
-            })
-          );
-        }
-
-        originalRequest.headers = {
-          ...originalRequest.headers,
-          Authorization: `Bearer ${res.data.accessToken}`,
-        };
-
-        return api(originalRequest);
-      } catch (err) {
-        handleLogout();
-        console.log(err);
-      }
+  (error) => {
+    if (error?.response?.status === 401) {
+      handleLogout();
     }
 
     return Promise.reject(error);
@@ -84,6 +89,8 @@ export const axiosBaseQuery =
     } catch (axiosError) {
       const err = axiosError as AxiosError;
       console.log(err);
+      handleApiError(err);
+
       return {
         error: {
           status: err.response?.status,
