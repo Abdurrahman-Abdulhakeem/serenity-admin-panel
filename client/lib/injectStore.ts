@@ -1,4 +1,3 @@
-// libs/injectStore.ts
 import type { AppDispatch, RootState } from "@/store/types";
 
 let _store: {

@@ -12,10 +12,10 @@ import AppointmentModal from "@/app/components/appointments/AppointmentModal";
 import Pagination from "@/app/components/Pagination";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
+
 import DeleteModal from "@/app/components/customModals/DeleteModal";
 import CalendarView from "@/app/components/appointments/CalendarView";
-
-const options = ["", "pending", "approved", "completed", "cancelled"];
+import AppointmentStatus from "@/app/components/appointments/AppointmentStatus";
 
 export default function AppointmentsPage() {
   const [page, setPage] = useState<number>(1);
@@ -32,6 +32,7 @@ export default function AppointmentsPage() {
   });
   const [deleteAppointment] = useDeleteAppointmentMutation();
 
+  
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -51,18 +52,8 @@ export default function AppointmentsPage() {
           onChange={(e) => setKeyword(e.target.value)}
         />
 
-        <select
-          className="border bg-background px-3 py-[9px] rounded"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="">All Statuses</option>
-          {options.slice(1).map((opt) => (
-            <option key={opt} value={opt}>
-              {opt.charAt(0).toUpperCase() + opt.slice(1)}
-            </option>
-          ))}
-        </select>
+        <AppointmentStatus status={status} setStatus={setStatus} />
+
       </div>
 
       <div className="bg-card rounded shadow">

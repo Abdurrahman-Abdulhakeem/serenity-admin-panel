@@ -3,11 +3,14 @@
 import { FormEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+
+
 import {
   useCreateAppointmentMutation,
   useUpdateAppointmentStatusMutation,
 } from "@/redux/features/appointmentApi";
 import { Appointment } from "@/types/appointment";
+import Dropdown from "../Dropdown";
 
 interface Props {
   editData: Appointment | null;
@@ -30,7 +33,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
 
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      HTMLInputElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
@@ -76,7 +79,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-card p-6 shadow-xl transition-all">
                   <div className="flex justify-between items-center mb-4">
                     <Dialog.Title className="text-lg font-bold">
                       {editData
@@ -84,7 +87,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
                         : "New Appointment"}
                     </Dialog.Title>
                     <XMarkIcon
-                      className="h-6 w-6 cursor-pointer text-gray-500"
+                      className="h-6 w-6 cursor-pointer text-card-foreground"
                       onClick={onClose}
                     />
                   </div>
@@ -93,7 +96,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
                     {!editData && (
                       <>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-card-foreground">
                             Patient Name
                           </label>
                           <input
@@ -106,7 +109,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-card-foreground">
                             Reason
                           </label>
                           <input
@@ -119,7 +122,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-card-foreground">
                             Date
                           </label>
                           <input
@@ -136,26 +139,13 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
 
                     {editData && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-card-foreground">
                           Status
                         </label>
-                        <select
-                          name="status"
-                          value={form.status}
-                          onChange={handleChange}
-                          className="mt-1 w-full rounded border px-3 py-2"
-                        >
-                          {[
-                            "pending",
-                            "approved",
-                            "completed",
-                            "cancelled",
-                          ].map((s) => (
-                            <option key={s} value={s}>
-                              {s.charAt(0).toUpperCase() + s.slice(1)}
-                            </option>
-                          ))}
-                        </select>
+                        {/* csdvfx */}
+                        <Dropdown form={form} setForm={setForm} />
+
+                        
                       </div>
                     )}
 
@@ -163,7 +153,7 @@ export default function AppointmentModal({ editData, isOpen, onClose }: Props) {
                       <button
                         type="submit"
                         disabled={creating || updating}
-                        className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark disabled:opacity-50"
+                        className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary-dark disabled:opacity-50"
                       >
                         {editData
                           ? updating

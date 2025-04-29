@@ -3,7 +3,8 @@
 import { useUpdateStaffMutation } from "@/redux/features/staffApi";
 import { Staff } from "@/types/staff";
 import { useEffect, useState } from "react";
-import Modal from "./BaseModal";
+import Modal from "../customModals/BaseModal";
+import StaffRolesDropdown from "./StaffRolesDropdown";
 
 interface Props {
   isOpen: boolean;
@@ -53,7 +54,7 @@ export default function EditStaffModal({ isOpen, onClose, staff }: Props) {
         value={form.department || ""}
         onChange={(e) => setForm({ ...form, department: e.target.value })}
       />
-      <select
+      {/* <select
         className="w-full mb-4 p-2 border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent dark:text-foreground"
         value={form.role || "nurse"}
         onChange={(e) => setForm({ ...form, role: e.target.value })}
@@ -62,7 +63,8 @@ export default function EditStaffModal({ isOpen, onClose, staff }: Props) {
         <option value="nurse">Nurse</option>
         <option value="admin">Admin</option>
         <option value="lab">Lab</option>
-      </select>
+      </select> */}
+      <StaffRolesDropdown form={form} setForm={setForm} />
 
       <div className="flex justify-between">
         <button onClick={onClose} className="text-gray-500">

@@ -107,7 +107,9 @@ export const handleLogout = () => {
   Cookies.remove("refreshToken");
   Cookies.remove("accessToken");
 
-  window.location.pathname = "/login";
+  if (window.location.pathname !== "/login") {
+    window.location.pathname = "/login";
+  }
 };
 
 export default api;

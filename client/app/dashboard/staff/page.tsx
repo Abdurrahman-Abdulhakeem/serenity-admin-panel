@@ -1,8 +1,9 @@
 "use client";
 
 import DeleteModal from "@/app/components/customModals/DeleteModal";
-import EditStaffModal from "@/app/components/customModals/EditStaffModal";
+import EditStaffModal from "@/app/components/staff/EditStaffModal";
 import Pagination from "@/app/components/Pagination";
+import StaffRolesDropdown from "@/app/components/staff/StaffRolesDropdown";
 import {
   useAddStaffMutation,
   useDeleteStaffMutation,
@@ -71,16 +72,9 @@ export default function StaffPage() {
           onChange={(e) => setForm({ ...form, department: e.target.value })}
           className="border border-ring dark:border-border p-2 mr-2 rounded focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
         />
-        <select
-          value={form.role}
-          onChange={(e) => setForm({ ...form, role: e.target.value })}
-          className="border border-ring dark:border-border mr-2 rounded px-5 py-[9px] bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent dark:text-foreground"
-        >
-          <option value="doctor">Doctor</option>
-          <option value="nurse">Nurse</option>
-          <option value="admin">Admin</option>
-          <option value="lab">Lab</option>
-        </select>
+
+        <StaffRolesDropdown form={form} setForm={setForm} />
+
         <input
           type="submit"
           value="Add Staff"
