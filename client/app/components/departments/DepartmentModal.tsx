@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Department } from "@/types/department";
+import { showError } from "@/lib/toastUtils";
 
 interface Props {
   open: boolean;
@@ -32,6 +33,10 @@ export default function DepartmentModal({
   }, [initialData]);
 
   const handleSubmit = () => {
+    if (!name) {
+      showError("Enter department name");
+      return;
+    }
     onSave({ name });
   };
 

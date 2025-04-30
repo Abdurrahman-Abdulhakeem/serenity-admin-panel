@@ -3,12 +3,15 @@
 import { useState } from "react";
 
 import {
+  useCreateAppointmentMutation,
   useDeleteAppointmentMutation,
   useGetAppointmentsQuery,
+  useUpdateAppointmentStatusMutation,
 } from "@/redux/features/appointmentApi";
+
 import { Appointment } from "@/types/appointment";
+
 import StatusBadge from "@/app/components/appointments/StatusBadge";
-import AppointmentModal from "@/app/components/appointments/AppointmentModal";
 import Pagination from "@/app/components/Pagination";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
@@ -16,6 +19,7 @@ import { Input } from "@/app/components/ui/input";
 import DeleteModal from "@/app/components/customModals/DeleteModal";
 import CalendarView from "@/app/components/appointments/CalendarView";
 import AppointmentStatus from "@/app/components/appointments/AppointmentStatus";
+import ReusableModal from "@/app/components/customModals/ReusableModal";
 
 export default function AppointmentsPage() {
   const [page, setPage] = useState<number>(1);
@@ -30,9 +34,13 @@ export default function AppointmentsPage() {
     keyword,
     status,
   });
+
+  const [createAppointment, { isLoading: creating }] =
+    useCreateAppointmentMutation();
+  const [updateStatus, { isLoading: updating }] =
+    useUpdateAppointmentStatusMutation();
   const [deleteAppointment] = useDeleteAppointmentMutation();
 
-  
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -53,7 +61,6 @@ export default function AppointmentsPage() {
         />
 
         <AppointmentStatus status={status} setStatus={setStatus} />
-
       </div>
 
       <div className="bg-card rounded shadow">
@@ -112,14 +119,26 @@ export default function AppointmentsPage() {
           setPage={setPage}
         />
       )}
+
       {openModal && (
-        <AppointmentModal
-          editData={selected}
+        <ReusableModal
+          isOpen={openModal}
           onClose={() => {
             setOpenModal(false);
             setSelected(null);
           }}
-          isOpen={openModal}
+          type="appointment"
+          initialData={selected}
+          onSubmit={async (data) => {
+            if (selected?._id) {
+              if ("status" in data && data.status) {
+                await updateStatus({ id: selected._id, status: data.status });
+              }
+            } else {
+              await createAppointment(data);
+            }
+          }}
+          loading={creating || updating}
         />
       )}
 

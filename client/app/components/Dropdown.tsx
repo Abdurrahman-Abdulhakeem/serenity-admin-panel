@@ -7,53 +7,39 @@ import {
 import { Button } from "@/app/components/ui/button";
 
 import { ChevronDown } from "lucide-react";
-import { Appointment } from "@/types/appointment";
 
-interface Props {
-    form: Partial<Appointment>;
-    setForm: "pending" | "approved" | "completed" | "cancelled";
+interface DropdownProps<T extends string> {
+  label?: string;
+  options: T[];
+  value?: T;
+  onChange: (value: T) => void;
+  className?: string;
 }
 
-// React.Dispatch<React.SetStateAction<Partial<Appointment>>>
-
-export default function Dropdown({ form, setForm }: Props) {
+export default function Dropdown<T extends string>({
+  options,
+  value,
+  onChange,
+  className,
+}: DropdownProps<T>) {
   return (
     <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-between"
-                            >
-                              {form?.status.charAt(0).toUpperCase() +
-                                form?.status.slice(1)}
-                              <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-full">
-                            {[
-                              "pending",
-                              "approved",
-                              "completed",
-                              "cancelled",
-                            ].map((status) => (
-                              <DropdownMenuItem
-                                key={status}
-                                onClick={() =>
-                                  setForm((prev) => ({
-                                    ...prev,
-                                    status: status as
-                                      | "pending"
-                                      | "approved"
-                                      | "completed"
-                                      | "cancelled",
-                                  }))
-                                }
-                              >
-                                {status.charAt(0).toUpperCase() +
-                                  status.slice(1)}
-                              </DropdownMenuItem>
-                            ))}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-  )
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          className={` ${className || "w-full"} justify-between`}
+        >
+          {value ? value.charAt(0).toUpperCase() + value.slice(1) : ""}
+          <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-full">
+        {options.map((option) => (
+          <DropdownMenuItem key={option} onClick={() => onChange(option)}>
+            {option.charAt(0).toUpperCase() + option.slice(1)}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }

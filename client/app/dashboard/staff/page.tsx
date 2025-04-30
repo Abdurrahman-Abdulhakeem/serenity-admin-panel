@@ -1,16 +1,19 @@
 "use client";
 
+import { useState } from "react";
+import { Staff } from "@/types/staff";
+import ReusableModal from "@/app/components/customModals/ReusableModal";
 import DeleteModal from "@/app/components/customModals/DeleteModal";
-import EditStaffModal from "@/app/components/staff/EditStaffModal";
 import Pagination from "@/app/components/Pagination";
-import StaffRolesDropdown from "@/app/components/staff/StaffRolesDropdown";
+
 import {
   useAddStaffMutation,
   useDeleteStaffMutation,
   useGetStaffQuery,
+  useUpdateStaffMutation,
 } from "@/redux/features/staffApi";
-import { Staff } from "@/types/staff";
-import { useState } from "react";
+import Dropdown from "@/app/components/Dropdown";
+import { useGetDepartmentsQuery } from "@/redux/features/departmentApi";
 
 export default function StaffPage() {
   const [page, setPage] = useState(1);
@@ -22,6 +25,9 @@ export default function StaffPage() {
   const { data: staff, isLoading } = useGetStaffQuery({ page, keyword });
   const [addStaff] = useAddStaffMutation();
   const [deleteStaff] = useDeleteStaffMutation();
+  const [updateStaff, { isLoading: updating }] = useUpdateStaffMutation();
+
+  const { data: department } = useGetDepartmentsQuery({ page, keyword }); // Make api call to get all department without page when available
 
   const [form, setForm] = useState({
     name: "",
@@ -35,6 +41,9 @@ export default function StaffPage() {
     await addStaff(form);
     setForm({ name: "", email: "", department: "", role: "nurse" });
   };
+
+  const departmentNames: string[] =
+    department?.docs.map((dep) => dep.name) || [];
 
   return (
     <div>
@@ -65,15 +74,24 @@ export default function StaffPage() {
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           className="border border-ring dark:border-border p-2 mr-2 rounded focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
         />
-        <input
-          type="text"
-          placeholder="Department"
-          value={form.department}
-          onChange={(e) => setForm({ ...form, department: e.target.value })}
-          className="border border-ring dark:border-border p-2 mr-2 rounded focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+
+        <Dropdown
+          label="Role"
+          options={departmentNames}
+          value={form.department || "Select Department"}
+          onChange={(department) =>
+            setForm((prev) => ({ ...prev, department }))
+          }
+          className="w-fit py-5 mr-2"
         />
 
-        <StaffRolesDropdown form={form} setForm={setForm} />
+        <Dropdown
+          label="Role"
+          options={["admin", "doctor", "nurse", "lab"]}
+          value={form.role}
+          onChange={(role) => setForm((prev) => ({ ...prev, role }))}
+          className="w-fit py-5 mr-2"
+        />
 
         <input
           type="submit"
@@ -141,11 +159,21 @@ export default function StaffPage() {
         />
       </div>
 
-      <EditStaffModal
-        isOpen={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        staff={selected}
-      />
+      {editModalOpen && (
+        <ReusableModal
+          isOpen={editModalOpen}
+          onClose={() => {
+            setEditModalOpen(false);
+            setSelected(null);
+          }}
+          type="staff"
+          initialData={selected}
+          onSubmit={async (data) => {
+            await updateStaff({ id: data._id!, data });
+          }}
+          loading={updating}
+        />
+      )}
 
       <DeleteModal
         isOpen={deleteModalOpen}
