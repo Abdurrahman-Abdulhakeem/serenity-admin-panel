@@ -10,6 +10,8 @@ import staffRoutes from "./routes/staffRoutes";
 import departmentRoutes from "./routes/departmentRoutes";
 import appointmentRoutes from "./routes/appointmentRoutes";
 import patientRoutes from './routes/patientRoutes';
+import analyticsRoutes from './routes/analytics';
+// import { seedPatients } from "./controllers/patientController";
 
 dotenv.config();
 
@@ -46,12 +48,15 @@ app.use(morgan('dev'));
 app.get("/", (req: Request, res: Response) => {
   res.send("Serenity Admin API Running");
 });
+// app.get('/seed', seedPatients);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/staffs', staffRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/patients', patientRoutes);
+
+app.use('/api/analytics', analyticsRoutes);
 
 
 app.use(errorHandler)

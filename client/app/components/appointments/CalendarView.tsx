@@ -4,6 +4,7 @@ import {
   Calendar,
   dateFnsLocalizer,
   View as BigCalendarView,
+  Messages,
 } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
@@ -57,6 +58,11 @@ export default function CalendarView() {
     }
   };
 
+  const messages: Messages = {
+    event: "Appointment", // change "Event" column header
+    noEventsInRange: "There are no appointments in this range.", // change empty message
+  };
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold">Appointments Calendar</h1>
@@ -76,6 +82,7 @@ export default function CalendarView() {
             onNavigate={(newDate) => setDate(newDate)} // Handle navigation
             toolbar={true}
             views={["month", "week", "agenda"]}
+            messages={messages}
             eventPropGetter={(event: CalendarEvent) => {
               const statusClass = colors[event.status as keyof typeof colors];
 

@@ -6,6 +6,7 @@ import { authApi } from "@/redux/features/authApi";
 import authReducer from "@/redux/features/slices/authSlice";
 import { departmentApi } from "@/redux/features/departmentApi";
 import { appointmentApi } from "@/redux/features/appointmentApi";
+import { dashboardApi } from "@/redux/features/dashboardApi";
 
 export const rootReducer = {
   auth: authReducer,
@@ -13,6 +14,7 @@ export const rootReducer = {
   [authApi.reducerPath]: authApi.reducer,
   [departmentApi.reducerPath]: departmentApi.reducer,
   [appointmentApi.reducerPath]: appointmentApi.reducer,
+  [dashboardApi.reducerPath]: dashboardApi.reducer,
 };
 
 export const store = configureStore({
@@ -23,6 +25,7 @@ export const store = configureStore({
       authApi.middleware,
       departmentApi.middleware,
       appointmentApi.middleware,
+      dashboardApi.middleware,
     ),
 });
 
