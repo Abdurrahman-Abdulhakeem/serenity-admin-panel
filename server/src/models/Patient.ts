@@ -23,8 +23,8 @@ const patientSchema = new mongoose.Schema<IPatient>(
     },
     gender: {
       type: String,
-      enum: ['male', 'female', 'other'],
-      default: 'other',
+      enum: ['male', 'female'],
+      default: 'male',
     },
     dob: {
       type: Date,

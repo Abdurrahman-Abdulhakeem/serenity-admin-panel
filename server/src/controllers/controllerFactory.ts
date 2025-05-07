@@ -106,6 +106,8 @@ export const getAll = <T extends DocType>(
     const count = await Model.countDocuments(query);
     const totalPages = Math.ceil(count / limit);
 
+    const totalDocs = await Model.estimatedDocumentCount(); // unfiltered total count
+
     let mongoQuery = Model.find(query);
 
     // If populate options provided
@@ -125,5 +127,6 @@ export const getAll = <T extends DocType>(
       result: docs.length,
       totalPages,
       docs,
+      totalDocs,
     });
   });

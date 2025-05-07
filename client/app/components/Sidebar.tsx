@@ -9,6 +9,7 @@ import {
   FaRegCalendarAlt,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { CalendarHeart } from "lucide-react";
 import { handleLogout } from "@/lib/axios";
 
 const navLinks = [
@@ -23,6 +24,11 @@ const navLinks = [
     href: "/dashboard/departments",
     label: "Departments",
     icon: <FaSitemap />,
+  },
+  {
+    href: "/dashboard/patients",
+    label: "Patients",
+    icon: <CalendarHeart />,
   },
   {
     href: "/dashboard/appointments",

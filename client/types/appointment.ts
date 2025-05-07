@@ -13,4 +13,5 @@ export interface AppointmentResponse {
   status: string;
   result: number;
   totalPages: number;
+  totalDocs: number;
 }

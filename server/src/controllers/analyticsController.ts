@@ -99,6 +99,7 @@ export const getDashboardStats = catchAsync(
       ) => {
         const label = ageRanges[curr._id] || "Unknown";
         acc[label] = curr.count;
+
         return acc;
       },
       {}

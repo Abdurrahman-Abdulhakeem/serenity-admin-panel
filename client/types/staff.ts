@@ -14,4 +14,5 @@ export interface StaffResponse {
   status: string;
   result: number;
   totalPages: number;
+  totalDocs: number;
 }

@@ -25,7 +25,7 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard
           label="Total Staff"
-          value={staff?.docs.length}
+          value={staff?.totalDocs}
           icon={<Users className="w-5 h-5" />}
         />
         <StatCard
@@ -73,7 +73,7 @@ const DashboardPage = () => {
             {" "}
             {/* Age Range here */}
             <h3 className="mb-3">Age Range</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
               {Object.entries(ageAnalytics).map(([range, count]) => (
                 <StatusTag
                   key={range}
@@ -102,7 +102,7 @@ const StatusTag = ({
   color: string;
 }) => (
   <div className={`flex justify-between py-2 px-4 rounded-lg ${color}`}>
-    <span className="capitalize font-medium mr-1">{label}</span>
+    <span className="capitalize font-medium">{label}</span>
     <span className="font-bold">{`(${count})`}</span>
   </div>
 );

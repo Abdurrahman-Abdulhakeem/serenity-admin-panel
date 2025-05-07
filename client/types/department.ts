@@ -10,4 +10,5 @@ export interface DepartmentResponse {
   status: string;
   result: number;
   totalPages: number;
+  totalDocs: number;
 }
