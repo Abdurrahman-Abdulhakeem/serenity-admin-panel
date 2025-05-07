@@ -3,13 +3,7 @@
 import { useGetStaffQuery } from "@/redux/features/staffApi";
 import { useGetDashboardStatsQuery } from "@/redux/features/dashboardApi";
 
-import {
-  // TrendingUp,
-  // TrendingDown,
-  Users,
-  CalendarHeart,
-  HeartPulse,
-} from "lucide-react";
+import { Users, CalendarHeart, HeartPulse } from "lucide-react";
 import BreakdownCard from "../components/dashboard/Breakdown";
 import StatCard from "../components/dashboard/StatCard";
 
@@ -20,13 +14,14 @@ const DashboardPage = () => {
   const totalAppointments = data?.appointments.total;
   const totalPatients = data?.patients.total;
   const totalDoctors = data?.doctors.total;
-  // const nursesCount = staff?.docs.filter((s) => s.role === 'nurse').length;
 
   const appointmentBreakdown = data?.appointments.breakdown || {};
   const patientBreakdown = data?.patients.breakdown || {};
+  const ageAnalytics = data?.ageAnalytics || {};
 
   return (
     <div className="space-y-8">
+      <h2 className="text-2xl font-bold mb-4">Overview</h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard
           label="Total Staff"
@@ -74,29 +69,20 @@ const DashboardPage = () => {
           loading={isLoading}
           order={["male", "female"]}
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div>
             {" "}
             {/* Age Range here */}
-            {Object.entries(appointmentBreakdown).map(([status, count]) => (
-              <StatusTag
-                key={status}
-                label={status}
-                count={count}
-                color={
-                  appointmentStatusColors[status] || "text-gray-600 bg-gray-100"
-                }
-              />
-            ))}
-            {Object.entries(appointmentBreakdown).map(([status, count]) => (
-              <StatusTag
-                key={status}
-                label={status}
-                count={count}
-                color={
-                  appointmentStatusColors[status] || "text-gray-600 bg-gray-100"
-                }
-              />
-            ))}
+            <h3 className="mb-3">Age Range</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {Object.entries(ageAnalytics).map(([range, count]) => (
+                <StatusTag
+                  key={range}
+                  label={range}
+                  count={count}
+                  color="bg-muted text-muted-foreground"
+                />
+              ))}
+            </div>
           </div>
         </BreakdownCard>
       </div>
@@ -115,17 +101,8 @@ const StatusTag = ({
   count: number;
   color: string;
 }) => (
-  <div
-    className={`flex justify-between py-2 px-4 rounded-lg ${color} bg-opacity-10`}
-  >
-    <span className="capitalize font-medium">{label}</span>
-    <span className="font-bold">{count}</span>
+  <div className={`flex justify-between py-2 px-4 rounded-lg ${color}`}>
+    <span className="capitalize font-medium mr-1">{label}</span>
+    <span className="font-bold">{`(${count})`}</span>
   </div>
 );
-
-const appointmentStatusColors: Record<string, string> = {
-  pending: "text-yellow-600 bg-yellow-100",
-  completed: "text-green-600 bg-green-100",
-  cancelled: "text-red-600 bg-red-100",
-  approved: "text-blue-600 bg-blue-100",
-};

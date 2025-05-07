@@ -36,7 +36,7 @@ export default function DepartmentList() {
   };
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="py-4 space-y-4">
       <div className="flex justify-between gap-4 items-center">
         <Input
           placeholder="Search..."

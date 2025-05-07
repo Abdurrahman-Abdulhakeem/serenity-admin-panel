@@ -10,4 +10,5 @@ export interface DashboardStats {
   doctors: {
     total: number;
   };
+  ageAnalytics: Record<string, number>;
 }

@@ -39,7 +39,7 @@ export default function DashboardLayout({
 
       <div className="flex-1 ml-64">
         <Topbar />
-        <main className="p-6 bg-secondary text-foreground min-h-[calc(100vh-4rem)]">
+        <main className="p-6 bg-secondary text-foreground min-h-[calc(100vh-4rem)] mt-16">
           {children}
         </main>
       </div>
